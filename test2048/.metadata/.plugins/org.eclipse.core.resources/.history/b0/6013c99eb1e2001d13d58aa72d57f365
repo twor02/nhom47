@@ -1,0 +1,67 @@
+package com.now2048.gui;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import com.now2048.game.DrawUtils;
+import com.now2048.game.Game;
+import com.now2048.game.GameBoard;
+import com.now2048.game.ScoreManager;
+
+public class MainMenuPanel extends GuiPanel {
+
+	private Font titleFont = Game.main.deriveFont(100f);
+	private String title = "2048";
+	private int buttonWidth = 220;
+	private ScoreManager scoremanager;
+	private GameBoard board;
+	private GuiButton newgame;
+	private int alpha = 0;
+	
+	public MainMenuPanel() {
+		
+		board = new GameBoard(Game.WIDTH / 2 - GameBoard.BOARD_WIDTH / 2, Game.HEIGHT - GameBoard.BOARD_HEIGHT - 20);
+		
+		GuiButton playButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 280, buttonWidth, 60);
+		playButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GuiScreen.getInstance().setCurrentPanel("Play");
+			}
+		});
+		playButton.setText("Play");
+		add(playButton);
+		
+		
+		GuiButton quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 400, buttonWidth, 60);
+		quitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		quitButton.setText("Quit");
+		add(quitButton);
+		
+		GuiButton newgameButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 520, buttonWidth, 60);
+		newgameButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				board.reset();
+			}
+		});
+		newgameButton.setText("New Game");
+		add(newgameButton);
+	}
+
+	@Override
+	public void render(Graphics2D g){
+		super.render(g);
+		g.setFont(titleFont);
+		g.setColor(Color.black);
+		g.drawString(title, Game.WIDTH / 2 - DrawUtils.getMessageWidth(title, titleFont, g) / 2, 150);
+	}
+}
